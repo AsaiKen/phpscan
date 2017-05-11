@@ -89,7 +89,7 @@ ENTRY_POINT_PATHとENTRY_POINT_PARENT_PATHは、いずれかを必ず入力す�
 
 検査対象のPHPファイルを実行するために必要なPHPファイル群が配置されているフォルダのパスを指定します。  
 このフォルダ内にあるPHPファイル群は検査対象になりません。  
-例えば、CMSのプラグインを検査する場合は、この項目にCMS本体のフォルダのパスを指定します。  
+例えば、CMSのプラグインを検査する場合は、この項目にCMS本体のフォルダのパスを指定します。  
 未指定の場合、ENTRY_POINT_PATHとENTRY_POINT_PARENT_PATHのいずれかの値が使用されます。
 
 #### PHP_INI_PATH
