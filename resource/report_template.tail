@@ -1,0 +1,8 @@
+
+
+END_MARKDOWN
+        */}).toString().split('START_MARKDOWN')[1].split('END_MARKDOWN')[0];
+    document.getElementById('content').innerHTML = marked(md_text);
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+/bin/
+/tmp/
+/vulnerability.txt
+/log.txt*
+/result/
+*.bak
+/classes/
