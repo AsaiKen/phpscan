@@ -22,6 +22,7 @@ import net.katagaitai.phpscan.interceptor.sink.TaintCheckerPTCall;
 import net.katagaitai.phpscan.interceptor.sink.TaintCheckerRCECall;
 import net.katagaitai.phpscan.interceptor.sink.TaintCheckerRCEReflection;
 import net.katagaitai.phpscan.interceptor.sink.TaintCheckerSQLICall;
+import net.katagaitai.phpscan.interceptor.sink.TaintCheckerSSRFCall;
 import net.katagaitai.phpscan.interceptor.sink.TaintCheckerXSSCall;
 import net.katagaitai.phpscan.interceptor.sink.TaintCheckerXSSCommand;
 import net.katagaitai.phpscan.interceptor.source.TaintInitializerCallUserXxx;
@@ -153,7 +154,7 @@ public class TaintUtils {
 				new TaintCheckerRCECall(ip),
 				new TaintCheckerRCEReflection(ip),
 				new TaintCheckerSQLICall(ip),
-				//				new TaintCheckerSSRFCall(ip),
+				new TaintCheckerSSRFCall(ip),
 				new TaintCheckerXSSCall(ip),
 				new TaintCheckerXSSCommand(ip)
 				);
