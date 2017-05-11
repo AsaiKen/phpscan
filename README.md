@@ -64,7 +64,7 @@ CMSのプラグインを検査する場合を一例として説明します。
 
 1. 実行準備で作成したフォルダ内のsetting.propertiesをテキストエディタで開きます。
 2. ENTRY_POINT_PATHにプラグインのフォルダのパスを記入します。
-3. PROJECT_PATHにCMSのフォルダのパスを記入します。
+3. PROJECT_PATHにCMS本体のフォルダのパスを記入します。
 4. PHP_INI_PATHにphp.iniファイルのパスを記入します。
 5. start_scan.batを実行すると、プラグインのフォルダ内のPHPファイル群に対して検査を実行します。
 6. 脆弱性があれば、resultフォルダ内に検査レポートが作成されます。
@@ -76,20 +76,20 @@ CMSのプラグインを検査する場合を一例として説明します。
 #### ENTRY_POINT_PATH
 
 検査対象のPHPファイル群が配置されたフォルダのパスを指定します。  
-ENTRY_POINT_PATHとENTRY_POINT_PARENT_PATHのいずれかを入力する必要があります。
+ENTRY_POINT_PATHとENTRY_POINT_PARENT_PATHは、いずれかを必ず入力する必要があります。
 
 #### ENTRY_POINT_PARENT_PATH
 
 ENTRY_POINT_PATHが複数存在する場合に使用します。  
 ENTRY_POINT_PATH群を1つのフォルダ内に配置し、この項目にそのフォルダのパスを指定することで、ENTRY_POINT_PATH群を検査することができます。  
 例えば、同時に複数のプラグインを検査したい場合に、プラグインのフォルダ群を配置したフォルダのパスを指定します。  
-ENTRY_POINT_PATHとENTRY_POINT_PARENT_PATHのいずれかを入力する必要があります。
+ENTRY_POINT_PATHとENTRY_POINT_PARENT_PATHは、いずれかを必ず入力する必要があります。
 
 #### PROJECT_PATH
 
 検査対象のPHPファイルを実行するために必要なPHPファイル群が配置されているフォルダのパスを指定します。  
 このフォルダ内にあるPHPファイル群は検査対象になりません。  
-例えば、CMSのプラグインを検査する場合は、この項目にCMSのフォルダのパスを指定します。  
+例えば、CMSのプラグインを検査する場合は、この項目にCMS本体のフォルダのパスを指定します。  
 未指定の場合、ENTRY_POINT_PATHとENTRY_POINT_PARENT_PATHのいずれかの値が使用されます。
 
 #### PHP_INI_PATH
