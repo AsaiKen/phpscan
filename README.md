@@ -140,6 +140,12 @@ PHPファイルとして認識する拡張子を記載します。
 コンマ区切りで複数指定することができます。  
 未指定の場合、phpとincの2つの拡張子がPHPファイルとして認識されます。
 
+### 発見した脆弱性
+
+以下のサイトに掲載されているもののうち、PHP関連のものはすべてPHPSCANで発見しています。
+
+[http://jvndb.jvn.jp/search/index.php?mode=_vulnerability_search_IA_VulnSearch&lang=ja&useSynonym=1&keyword=%90%F3%88%E4%81%40%8C%92](http://jvndb.jvn.jp/search/index.php?mode=_vulnerability_search_IA_VulnSearch&lang=ja&useSynonym=1&keyword=%90%F3%88%E4%81%40%8C%92)
+
 ### その他
 
 PHP7の機能には未対応です。
