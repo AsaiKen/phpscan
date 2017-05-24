@@ -13,19 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 public class PhpAstParserTest {
-
-	@Test
-	public void test() throws Exception {
-		FileReader reader = new FileReader(new File("test_resource/parser/AppGoatUtil.php"));
-		AST ast = new AST(reader, PHPVersion.PHP5_6, false, false);
-		PhpAstParser parser = ast.getParser();
-		parser.parse();
-		Program program = parser.getProgram();
-		System.out.println(program);
-		// 例外なしならOK
-		assert true;
-	}
-
 	@Test
 	public void testNormalTag() throws Exception {
 		FileReader reader = new FileReader(new File("test_resource/parser/normal_tag.php"));
@@ -45,7 +32,7 @@ public class PhpAstParserTest {
 		parser.parse();
 		Program program = parser.getProgram();
 		System.out.println(program);
-		assertThat(program.toString().contains("オプションでASP形式のタグを使用可能です"), is(true));
+		assertThat(program.toString().contains("ASP形式のタグ"), is(true));
 	}
 
 	@Test
