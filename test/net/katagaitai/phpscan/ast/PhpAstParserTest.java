@@ -21,7 +21,8 @@ public class PhpAstParserTest {
 		parser.parse();
 		Program program = parser.getProgram();
 		System.out.println(program);
-		assertThat(program.toString().contains("一方、この部分はパースされます。"), is(true));
+		assertThat(program.toString().contains("パースされる。"), is(true));
+		assertThat(program.toString().contains("パースされない。"), is(false));
 	}
 
 	@Test

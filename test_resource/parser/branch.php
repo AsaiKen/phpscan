@@ -1,5 +1,6 @@
+http://php.net/manual/ja/language.basic-syntax.phpmode.php
 <?php if ($expression == true): ?>
-  条件式が真の場合にこれが表示されます。
+真
 <?php else: ?>
-  それ以外の場合にこちらが表示されます。
+偽
 <?php endif; ?>

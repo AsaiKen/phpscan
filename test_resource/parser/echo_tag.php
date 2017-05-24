@@ -1,3 +1,3 @@
-短縮型の echo タグを使って <?= 'この文字列を表示' ?> とすることもできます。
-    これは PHP 5.4.0 以降では常に使えて、
-    <?php echo 'この文字列を表示' ?> と同じ意味になります。
+http://php.net/manual/ja/language.basic-syntax.phpmode.php
+<?= 'この文字列を表示' ?>
+<?php echo 'この文字列を表示' ?>

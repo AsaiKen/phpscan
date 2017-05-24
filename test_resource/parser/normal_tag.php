@@ -1,3 +1,4 @@
-<p>この部分は PHP から無視され、そのままブラウザには表示されます。</p>
-<?php echo '一方、この部分はパースされます。'; ?>
-<p>この部分も PHP から無視され、そのままブラウザには表示されます。</p>
+http://php.net/manual/ja/language.basic-syntax.phpmode.php
+<p>パースされない。</p>
+<?php echo 'パースされる。'; ?>
+<p>パースされない。</p>
