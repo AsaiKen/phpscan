@@ -30,9 +30,6 @@ public class Debugger implements CommandInterceptor {
 
 	@Override
 	public void intercept(Command command) {
-		if (ip.getSourcePosition().toString().endsWith("driver.php:53")) {
-			System.out.println();
-		}
 		debug(ip.getCommandCounter() + ": " + command);
 
 		if (command instanceof Assign) {

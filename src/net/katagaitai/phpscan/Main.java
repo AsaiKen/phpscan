@@ -6,7 +6,6 @@ import java.util.List;
 import lombok.extern.log4j.Log4j2;
 import net.katagaitai.phpscan.compiler.PhpProject;
 import net.katagaitai.phpscan.compiler.ProjectCompiler;
-import net.katagaitai.phpscan.interceptor.Debugger;
 import net.katagaitai.phpscan.interceptor.Interceptor;
 import net.katagaitai.phpscan.interceptor.TimeKeeper;
 import net.katagaitai.phpscan.interpreter.Interpreter;
@@ -92,7 +91,7 @@ public class Main {
 				ip.setUseEcho(false);
 				List<Interceptor> interceptorList = Lists.newArrayList();
 				interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
-				interceptorList.add(new Debugger(ip));
+				//				interceptorList.add(new Debugger(ip));
 				interceptorList.add(new TimeKeeper(ip));
 				ScanUtils.writeSummary("開始：" + filepath);
 				ip.execute(interceptorList);
