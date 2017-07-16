@@ -25,6 +25,7 @@ import net.katagaitai.phpscan.interceptor.sink.TaintCheckerSQLICall;
 import net.katagaitai.phpscan.interceptor.sink.TaintCheckerSSRFCall;
 import net.katagaitai.phpscan.interceptor.sink.TaintCheckerXSSCall;
 import net.katagaitai.phpscan.interceptor.sink.TaintCheckerXSSCommand;
+import net.katagaitai.phpscan.interceptor.sink.TaintCheckerXXECall;
 import net.katagaitai.phpscan.interceptor.source.TaintInitializerCallUserXxx;
 import net.katagaitai.phpscan.interceptor.source.TaintInitializerCurlAPI;
 import net.katagaitai.phpscan.interceptor.source.TaintInitializerFileAPI;
@@ -95,6 +96,34 @@ public class TaintUtils {
 		}
 	}
 
+	public static void pushEncodeTagRecursive(Interpreter ip, Symbol symbol, EncodeTag tag) {
+		SymbolOperator operator = ip.getOperator();
+		LinkedList<SymbolId> applyTaintStack = ip.getStorage().getApplyTaintStack();
+		if (applyTaintStack.contains(symbol.getId())) {
+			return;
+		}
+		applyTaintStack.push(symbol.getId());
+		try {
+			for (PhpAnyType type : operator.getTypeSet(symbol)) {
+				if (type instanceof PhpArray) {
+					PhpArray phpArray = (PhpArray) type;
+					for (Entry<SymbolId, SymbolId> entry : phpArray.getArray().entrySet()) {
+						Symbol valueSymbol = operator.getSymbol(entry.getValue());
+						if (valueSymbol != null) {
+							pushEncodeTagRecursive(ip, valueSymbol, tag);
+						}
+					}
+				} else if (type instanceof PhpString) {
+					for (Taint taint : symbol.getTaintSet()) {
+						taint.getEncodeTagStack().push(tag);
+					}
+				}
+			}
+		} finally {
+			applyTaintStack.pop();
+		}
+	}
+
 	public static void applyChildTaintRecursive(Interpreter ip, Symbol symbol, Taint taint) {
 		SymbolOperator operator = ip.getOperator();
 		LinkedList<SymbolId> applyTaintStack = ip.getStorage().getApplyTaintStack();
@@ -156,7 +185,8 @@ public class TaintUtils {
 				new TaintCheckerSQLICall(ip),
 				new TaintCheckerSSRFCall(ip),
 				new TaintCheckerXSSCall(ip),
-				new TaintCheckerXSSCommand(ip)
+				new TaintCheckerXSSCommand(ip),
+				new TaintCheckerXXECall(ip)
 				);
 	}
 
@@ -170,7 +200,8 @@ public class TaintUtils {
 			}
 			if (taint.getEncodeTagStack().size() > 0
 					&& (taint.getEncodeTagStack().contains(EncodeTag.URL_ENCODE)
-					|| taint.getEncodeTagStack().contains(EncodeTag.SQL_ESCAPE))) {
+							|| taint.getEncodeTagStack().contains(EncodeTag.SQL_ESCAPE)
+							|| taint.getEncodeTagStack().contains(EncodeTag.BASE64_ENCODE))) {
 				continue;
 			}
 			result.add(taint);
@@ -201,7 +232,8 @@ public class TaintUtils {
 				continue;
 			}
 			if (taint.getEncodeTagStack().size() > 0
-					&& taint.getEncodeTagStack().contains(EncodeTag.URL_ENCODE)) {
+					&& (taint.getEncodeTagStack().contains(EncodeTag.URL_ENCODE)
+					|| taint.getEncodeTagStack().contains(EncodeTag.BASE64_ENCODE))) {
 				continue;
 			}
 			result.add(taint);
@@ -218,7 +250,8 @@ public class TaintUtils {
 				continue;
 			}
 			if (taint.getEncodeTagStack().size() > 0
-					&& taint.getEncodeTagStack().contains(EncodeTag.URL_ENCODE)) {
+					&& (taint.getEncodeTagStack().contains(EncodeTag.URL_ENCODE)
+					|| taint.getEncodeTagStack().contains(EncodeTag.BASE64_ENCODE))) {
 				continue;
 			}
 			result.add(taint);
@@ -236,7 +269,8 @@ public class TaintUtils {
 			}
 			if (taint.getEncodeTagStack().size() > 0
 					&& (taint.getEncodeTagStack().contains(EncodeTag.URL_ENCODE)
-					|| taint.getEncodeTagStack().contains(EncodeTag.SHELL_ENCODE))) {
+							|| taint.getEncodeTagStack().contains(EncodeTag.SHELL_ENCODE)
+							|| taint.getEncodeTagStack().contains(EncodeTag.BASE64_ENCODE))) {
 				continue;
 			}
 			result.add(taint);
@@ -254,8 +288,9 @@ public class TaintUtils {
 			}
 			if (taint.getEncodeTagStack().size() > 0
 					&& (taint.getEncodeTagStack().contains(EncodeTag.URL_ENCODE)
+					// 拡張子をphpにすることで発動する脆弱性があるので、basenameは除外する。
 					//					|| taint.getEncodeTagStack().contains(EncodeTag.BASENAME)
-					)) {
+					|| taint.getEncodeTagStack().contains(EncodeTag.BASE64_ENCODE))) {
 				continue;
 			}
 			result.add(taint);
@@ -298,6 +333,7 @@ public class TaintUtils {
 			boolean hasMix = false;
 			for (Command command : taint.getCommandList()) {
 				if (command instanceof Mix) {
+					// 特定のワードを含む関数しか呼べないようにしているケース
 					hasMix = true;
 					break;
 				}
@@ -395,7 +431,9 @@ public class TaintUtils {
 			}
 			if (taint.getEncodeTagStack().size() > 0
 					&& (taint.getEncodeTagStack().contains(EncodeTag.URL_ENCODE)
-					|| taint.getEncodeTagStack().contains(EncodeTag.STRIP_TAGS))) {
+							|| taint.getEncodeTagStack().contains(EncodeTag.STRIP_TAGS)
+							|| taint.getEncodeTagStack().contains(EncodeTag.HTML_ESCAPE)
+							|| taint.getEncodeTagStack().contains(EncodeTag.BASE64_ENCODE))) {
 				continue;
 			}
 			result.add(taint);
@@ -412,7 +450,8 @@ public class TaintUtils {
 				continue;
 			}
 			if (taint.getEncodeTagStack().size() > 0
-					&& (taint.getEncodeTagStack().contains(EncodeTag.URL_ENCODE))) {
+					&& (taint.getEncodeTagStack().contains(EncodeTag.URL_ENCODE)
+					|| taint.getEncodeTagStack().contains(EncodeTag.BASE64_ENCODE))) {
 				continue;
 			}
 			boolean hasPrefix = false;

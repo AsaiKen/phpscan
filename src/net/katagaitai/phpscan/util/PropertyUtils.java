@@ -26,6 +26,7 @@ public class PropertyUtils {
 	public static final String HTML_ESCAPE_FUNCTIONS = "HTML_ESCAPE_FUNCTIONS";
 	public static final String DISABLED_VULNERABILITY_CATEGORIES = "DISABLED_VULNERABILITY_CATEGORIES";
 	public static final String PHP_FILE_EXTENSIONS = "PHP_FILE_EXTENSIONS";
+	public static final String USED_FRAMEWORKS = "USED_FRAMEWORKS";
 
 	private static final Map<String, String> PROPERTY_MAP = Maps.newHashMap();
 	static {

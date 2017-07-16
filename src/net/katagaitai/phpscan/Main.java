@@ -8,6 +8,7 @@ import net.katagaitai.phpscan.compiler.PhpProject;
 import net.katagaitai.phpscan.compiler.ProjectCompiler;
 import net.katagaitai.phpscan.interceptor.Interceptor;
 import net.katagaitai.phpscan.interceptor.TimeKeeper;
+import net.katagaitai.phpscan.interceptor.cms.WordPressInterceptor;
 import net.katagaitai.phpscan.interpreter.Interpreter;
 import net.katagaitai.phpscan.util.FileUtils;
 import net.katagaitai.phpscan.util.PropertyUtils;
@@ -93,6 +94,15 @@ public class Main {
 				interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
 				//				interceptorList.add(new Debugger(ip));
 				interceptorList.add(new TimeKeeper(ip));
+				// CMSやフレームワークの個別対応を有効化する
+				String usedFrameworks = PropertyUtils.getString(PropertyUtils.USED_FRAMEWORKS);
+				if (usedFrameworks != null) {
+					for (String usedFramework : usedFrameworks.split(",")) {
+						if (usedFramework.toLowerCase().equals("wordpress")) {
+							interceptorList.add(new WordPressInterceptor(ip));
+						}
+					}
+				}
 				ScanUtils.writeSummary("開始：" + filepath);
 				ip.execute(interceptorList);
 				ScanUtils.writeSummary("終了：" + ip.getVulnerabilityList().size());
