@@ -21,6 +21,7 @@ PHPのコードを擬似的に実行して脆弱性を検出します。
 * Cross Site Scripting
 * Object Injection
 * PHP File Manipulation
+* XML External Entity
 
 検査結果はHTML形式のレポートとして出力されます。  
 検査レポートには、ユーザ入力値が初めて代入された地点から危険な関数で使用される地点までの呼び出しの経路が記載されます。  
