@@ -72,6 +72,11 @@ public class WordPressInterceptor implements BeforeCallInterceptor {
 						taint.getEncodeTagStack().push(EncodeTag.HTML_ESCAPE);
 					}
 					decorator.setResult(dataSymbol);
+				} else if (fullName.equals("\\esc_sql")) {
+					// 値渡し、戻り値あり、再帰的SQLエスケープ
+					Symbol dataSymbol = SymbolUtils.getArgument(ip, 0);
+					TaintUtils.pushEncodeTagRecursive(ip, dataSymbol, EncodeTag.SQL_ESCAPE);
+					decorator.setResult(dataSymbol);
 				}
 			} else {
 				// メソッド
@@ -95,10 +100,17 @@ public class WordPressInterceptor implements BeforeCallInterceptor {
 						}
 						operator.addNewTaintSet(querySymbol, taintSet);
 						decorator.setResult(querySymbol);
-					} else if (name.equals("escape") || name.equals("esc_like")) {
+					} else if (name.equals("escape") || name.equals("_escape")) {
 						// 値渡し、戻り値あり、再帰的SQLエスケープ
 						Symbol dataSymbol = SymbolUtils.getArgument(ip, 0);
 						TaintUtils.pushEncodeTagRecursive(ip, dataSymbol, EncodeTag.SQL_ESCAPE);
+						decorator.setResult(dataSymbol);
+					} else if (name.equals("esc_like") || name.equals("_real_escape") || name.equals("_weak_escape")) {
+						// 値渡し、戻り値あり、SQLエスケープ
+						Symbol dataSymbol = SymbolUtils.getArgument(ip, 0);
+						for (Taint taint : dataSymbol.getTaintSet()) {
+							taint.getEncodeTagStack().push(EncodeTag.SQL_ESCAPE);
+						}
 						decorator.setResult(dataSymbol);
 					} else if (name.equals("escape_by_ref")) {
 						// 参照渡し、戻り値無し、SQLエスケープ
