@@ -68,7 +68,7 @@ public class PhpClassBase implements PhpNewable {
 	public void initialize(Interpreter ip) {
 		LinkedList<PhpNewable> newableStack = ip.getStorage().getNewableStack();
 		if (newableStack.contains(this)) {
-			log.warn("再帰：" + this + " [" + ip.getSourcePosition() + "]");
+			log.info("再帰：" + this + " [" + ip.getSourcePosition() + "]");
 			return;
 		}
 		newableStack.push(this);

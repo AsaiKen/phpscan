@@ -132,7 +132,7 @@ public class PhpFunction implements PhpCallable {
 		if (SymbolUtils.hasTaint(ip, ip.getContext().getArgumentSymbolList())) {
 			// 引数にテイントがあれば必ず実行する
 		} else if (ip.getCallStack().size() >= ip.getMaxCallStackSize()) {
-			log.warn("コールスタックが上限に達しました。：" + SymbolUtils.getFunctionName(this)
+			log.info("コールスタックが上限に達しました。：" + SymbolUtils.getFunctionName(this)
 					+ " [" + ip.getSourcePosition() + "]");
 			return operator.createNull();
 		}

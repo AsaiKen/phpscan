@@ -1013,11 +1013,11 @@ public class Interpreter {
 			}
 			LinkedList<String> includeStack = storage.getIncludeStack();
 			if (includeStack.contains(absFile.getAbsolutePath())) {
-				log.warn("再帰：" + absFile.getAbsolutePath() + " [" + sourcePosition + "]");
+				log.info("再帰：" + absFile.getAbsolutePath() + " [" + sourcePosition + "]");
 				return operator.createNull();
 			}
 			if (callStack.size() >= maxCallStackSize) {
-				log.warn("コールスタックが上限に達しました。：" + absFile.getAbsolutePath()
+				log.info("コールスタックが上限に達しました。：" + absFile.getAbsolutePath()
 						+ " [" + sourcePosition + "]");
 				return operator.createNull();
 			}
