@@ -151,4 +151,14 @@ public class MiscTest {
 		System.out.println("hoge".startsWith(""));
 		System.out.println("hoge".startsWith("hoge"));
 	}
+
+	@Test
+	public void test14() {
+		Map<Object, Boolean> map = Maps.newHashMap();
+		map.put(0L, true);
+		Object key = ((Integer) 0).longValue();
+		assertThat(map.get(0L), is(true));
+		assertThat(map.get(key), is(true));
+		assertThat(map.get(0), nullValue());
+	}
 }
