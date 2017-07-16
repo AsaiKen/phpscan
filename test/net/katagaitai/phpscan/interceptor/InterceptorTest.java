@@ -978,4 +978,30 @@ public class InterceptorTest {
 		assertThat(ip.getVulnerabilityList().size(), is(1));
 		assertThat(ip.getVulnerabilityList().get(0).getCategory(), is(VulnerabilityCategory.XSS));
 	}
+
+	@Test
+	public void test67() throws Exception {
+		Interpreter ip = new Interpreter(
+				new File("test_resource/interceptor/xxe1.php"),
+				new Ini(new File("sample_php.ini")));
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new Debugger(ip));
+		ip.execute(interceptorList);
+		assertThat(ip.getVulnerabilityList().size(), is(1));
+		assertThat(ip.getVulnerabilityList().get(0).getCategory(), is(VulnerabilityCategory.XXE));
+	}
+
+	@Test
+	public void test68() throws Exception {
+		Interpreter ip = new Interpreter(
+				new File("test_resource/interceptor/xxe2.php"),
+				new Ini(new File("sample_php.ini")));
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new Debugger(ip));
+		ip.execute(interceptorList);
+		assertThat(ip.getVulnerabilityList().size(), is(1));
+		assertThat(ip.getVulnerabilityList().get(0).getCategory(), is(VulnerabilityCategory.XXE));
+	}
 }
