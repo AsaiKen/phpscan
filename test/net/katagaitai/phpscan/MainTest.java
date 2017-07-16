@@ -14,6 +14,7 @@ import net.katagaitai.phpscan.compiler.ProjectCompiler;
 import net.katagaitai.phpscan.interceptor.Debugger;
 import net.katagaitai.phpscan.interceptor.Interceptor;
 import net.katagaitai.phpscan.interceptor.TimeKeeper;
+import net.katagaitai.phpscan.interceptor.cms.WordPressInterceptor;
 import net.katagaitai.phpscan.interpreter.Interpreter;
 import net.katagaitai.phpscan.util.TaintUtils;
 
@@ -1124,6 +1125,60 @@ public class MainTest {
 		interceptorList.add(new Debugger(ip));
 		interceptorList.add(new TimeKeeper(ip, 3 * 60 * 1000));
 		TestInterceptor ti = new TestInterceptor(ip, VulnerabilityCategory.PFM, "\\fwrite");
+		interceptorList.add(ti);
+		ip.execute(interceptorList);
+		log.info(new String(baos.toByteArray()));
+		assertThat(ti.isFound(), is(true));
+	}
+
+	// https://blog.sucuri.net/2017/06/sql-injection-vulnerability-wp-statistics.html
+	@Test
+	public void test42() throws Exception {
+		Interpreter ip =
+				new Interpreter(
+						new File(
+								"C:/xampp/htdocs/main/wordpress-4.7.0/wp-content/plugins/wp-statistics/wp-statistics.php"),
+						new Ini(new File("C:/Users/askn/github/phpscan/sample_php.ini")));
+		ProjectCompiler projectCompiler =
+				new ProjectCompiler(
+						new File("C:/xampp/htdocs/main/wordpress-4.7.0/"));
+		PhpProject phpProject = projectCompiler.compile();
+		ip.setPhpProject(phpProject);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintStream out = new PrintStream(baos);
+		System.setOut(out);
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new WordPressInterceptor(ip));
+		interceptorList.add(new TimeKeeper(ip, 3 * 60 * 1000));
+		TestInterceptor ti = new TestInterceptor(ip, VulnerabilityCategory.SQLI, "\\add_shortcode");
+		ti.setKillOnFoung(false);
+		interceptorList.add(ti);
+		ip.execute(interceptorList);
+		log.info(new String(baos.toByteArray()));
+		assertThat(ti.isFound(), is(true));
+	}
+
+	// https://legalhackers.com/advisories/PHPMailer-Exploit-Remote-Code-Exec-CVE-2016-10045-Vuln-Patch-Bypass.html
+	@Test
+	public void test43() throws Exception {
+		Interpreter ip =
+				new Interpreter(
+						new File("C:/xampp/htdocs/main/CVE-2016-10033/poc.php"),
+						new Ini(new File("C:/Users/askn/github/phpscan/sample_php.ini")));
+		ProjectCompiler projectCompiler =
+				new ProjectCompiler(
+						new File("C:/xampp/htdocs/main/CVE-2016-10033/"));
+		PhpProject phpProject = projectCompiler.compile();
+		ip.setPhpProject(phpProject);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintStream out = new PrintStream(baos);
+		System.setOut(out);
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new TimeKeeper(ip, 3 * 60 * 1000));
+		TestInterceptor ti = new TestInterceptor(ip, VulnerabilityCategory.RCE, "\\mail");
+		ti.setKillOnFoung(false);
 		interceptorList.add(ti);
 		ip.execute(interceptorList);
 		log.info(new String(baos.toByteArray()));
