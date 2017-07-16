@@ -26,15 +26,15 @@ public class TaintInitializerUnserialize implements CallInterceptor {
 
 	@Override
 	public void intercept(CallDecorator decorator) {
-		if (decorator.getDecrated() instanceof unserialize
-				|| decorator.getDecrated() instanceof session_decode
-				|| decorator.getDecrated() instanceof yaml_parse) {
+		if (decorator.getDecorated() instanceof unserialize
+				|| decorator.getDecorated() instanceof session_decode
+				|| decorator.getDecorated() instanceof yaml_parse) {
 			Symbol symbol = SymbolUtils.getArgument(ip, 0);
 			Set<Taint> taintSet = symbol.getTaintSet();
 			if (taintSet.size() > 0) {
 				List<Vulnerability> vulnerabilityList =
 						ScanUtils.getVulnerabilityList(ip, VulnerabilityCategory.OI, taintSet,
-								SymbolUtils.getFunctionName(decorator.getDecrated()));
+								SymbolUtils.getFunctionName(decorator.getDecorated()));
 				ScanUtils.addVulnerability(ip, vulnerabilityList);
 			} else {
 				return;
@@ -51,24 +51,24 @@ public class TaintInitializerUnserialize implements CallInterceptor {
 			//			}
 			//			operator.merge(decorator.getResult(),
 			//					operator.createSymbol(operator.createPhpArrayAny(taintSet)));
-		} else if (decorator.getDecrated() instanceof yaml_parse_file) {
+		} else if (decorator.getDecorated() instanceof yaml_parse_file) {
 			Symbol symbol = SymbolUtils.getArgument(ip, 0);
 			Set<Taint> taintSet = TaintUtils.getPathTaint(symbol.getTaintSet());
 			if (taintSet.size() > 0) {
 				List<Vulnerability> vulnerabilityList =
 						ScanUtils.getVulnerabilityList(ip, VulnerabilityCategory.OI, taintSet,
-								SymbolUtils.getFunctionName(decorator.getDecrated()));
+								SymbolUtils.getFunctionName(decorator.getDecorated()));
 				ScanUtils.addVulnerability(ip, vulnerabilityList);
 			} else {
 				return;
 			}
-		} else if (decorator.getDecrated() instanceof yaml_parse_url) {
+		} else if (decorator.getDecorated() instanceof yaml_parse_url) {
 			Symbol symbol = SymbolUtils.getArgument(ip, 0);
 			Set<Taint> taintSet = TaintUtils.getUrlTaint(symbol.getTaintSet());
 			if (taintSet.size() > 0) {
 				List<Vulnerability> vulnerabilityList =
 						ScanUtils.getVulnerabilityList(ip, VulnerabilityCategory.OI, taintSet,
-								SymbolUtils.getFunctionName(decorator.getDecrated()));
+								SymbolUtils.getFunctionName(decorator.getDecorated()));
 				ScanUtils.addVulnerability(ip, vulnerabilityList);
 			} else {
 				return;

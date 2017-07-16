@@ -46,7 +46,7 @@ public class TaintInitializerDbAPI implements CallInterceptor {
 
 	@Override
 	public void intercept(CallDecorator decorator) {
-		PhpCallable callable = decorator.getDecrated();
+		PhpCallable callable = decorator.getDecorated();
 		String functionName = SymbolUtils.getFunctionName(callable);
 		Symbol resultSymbol = decorator.getResult();
 		if (callable instanceof mysql_fetch_row

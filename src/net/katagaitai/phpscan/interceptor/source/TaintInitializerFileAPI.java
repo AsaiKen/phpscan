@@ -37,7 +37,7 @@ public class TaintInitializerFileAPI implements CallInterceptor {
 	@Override
 	public void intercept(CallDecorator decorator) {
 		SymbolOperator operator = ip.getOperator();
-		PhpCallable callable = decorator.getDecrated();
+		PhpCallable callable = decorator.getDecorated();
 		if (callable instanceof fopen) {
 			Symbol filenameSymbol = SymbolUtils.getArgument(ip, 0);
 			Set<Taint> taintSet = TaintUtils.getPathTaint(filenameSymbol.getTaintSet());

@@ -26,7 +26,7 @@ public class TaintCheckerRCEReflection implements CallInterceptor {
 	@Override
 	public void intercept(CallDecorator decorator) {
 		SymbolOperator operator = ip.getOperator();
-		PhpCallable callable = decorator.getDecrated();
+		PhpCallable callable = decorator.getDecorated();
 		if (callable instanceof invoke) {
 			Symbol thisSymbol = ip.getContext().getThisSymbol();
 			Symbol nameSymbol = operator.getFieldValue(thisSymbol, "name");

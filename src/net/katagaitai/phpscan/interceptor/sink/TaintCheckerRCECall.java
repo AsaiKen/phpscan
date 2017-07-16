@@ -18,6 +18,7 @@ import net.katagaitai.phpscan.php.builtin.Standard_2.proc_open;
 import net.katagaitai.phpscan.php.builtin.Standard_2.shell_exec;
 import net.katagaitai.phpscan.php.builtin.Standard_2.system;
 import net.katagaitai.phpscan.php.builtin.Standard_5.popen;
+import net.katagaitai.phpscan.php.builtin.Standard_7.mail;
 import net.katagaitai.phpscan.php.builtin._Types.eval;
 import net.katagaitai.phpscan.symbol.Symbol;
 import net.katagaitai.phpscan.symbol.SymbolOperator;
@@ -33,7 +34,7 @@ public class TaintCheckerRCECall implements CallInterceptor {
 	@Override
 	public void intercept(CallDecorator decorator) {
 		SymbolOperator operator = ip.getOperator();
-		PhpCallable callable = decorator.getDecrated();
+		PhpCallable callable = decorator.getDecorated();
 		int argIndex;
 		String comment = SymbolUtils.getFunctionName(callable);
 		boolean evalPhp = false;
@@ -47,6 +48,9 @@ public class TaintCheckerRCECall implements CallInterceptor {
 				|| callable instanceof system) {
 			execShell = true;
 			argIndex = 0;
+		} else if (callable instanceof mail) {
+			execShell = true;
+			argIndex = 4;
 		} else if (callable instanceof create_function) {
 			evalPhp = true;
 			argIndex = 1;

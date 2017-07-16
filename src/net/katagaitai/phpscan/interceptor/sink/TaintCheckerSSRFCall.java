@@ -25,7 +25,7 @@ public class TaintCheckerSSRFCall implements CallInterceptor {
 
 	@Override
 	public void intercept(CallDecorator decorator) {
-		PhpCallable callable = decorator.getDecrated();
+		PhpCallable callable = decorator.getDecorated();
 		String comment = SymbolUtils.getFunctionName(callable);
 
 		if (callable instanceof fsockopen || callable instanceof pfsockopen) {

@@ -48,7 +48,7 @@ public class TaintCheckerSQLICall implements CallInterceptor {
 
 	@Override
 	public void intercept(CallDecorator decorator) {
-		PhpCallable callable = decorator.getDecrated();
+		PhpCallable callable = decorator.getDecorated();
 		int argIndex;
 		String comment = SymbolUtils.getFunctionName(callable);
 		if (callable instanceof mysql_query || callable instanceof mysql_unbuffered_query) {

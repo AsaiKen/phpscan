@@ -34,7 +34,7 @@ public class TaintCheckerPTCall implements CallInterceptor {
 	@Override
 	public void intercept(CallDecorator decorator) {
 		SymbolOperator operator = ip.getOperator();
-		PhpCallable callable = decorator.getDecrated();
+		PhpCallable callable = decorator.getDecorated();
 		String comment = SymbolUtils.getFunctionName(callable);
 
 		if (callable instanceof unlink || callable instanceof file_get_contents

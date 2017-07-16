@@ -56,7 +56,7 @@ public class TaintPasser implements CallInterceptor {
 
 	@Override
 	public void intercept(CallDecorator decorator) {
-		PhpCallable callable = decorator.getDecrated();
+		PhpCallable callable = decorator.getDecorated();
 		if (callable instanceof escapeshellarg) {
 			// escapeshellcmdは
 			// 「' および " は、対になっていない場合にのみエスケープされます。」

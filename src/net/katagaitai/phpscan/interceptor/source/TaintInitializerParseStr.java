@@ -26,7 +26,7 @@ public class TaintInitializerParseStr implements CallInterceptor {
 		if (size > 1) {
 			return;
 		}
-		if (decorator.getDecrated() instanceof parse_str) {
+		if (decorator.getDecorated() instanceof parse_str) {
 			// 現在のスコープを汚染
 			Symbol strSymbol = SymbolUtils.getArgument(ip, 0);
 			Set<Taint> taintSet = strSymbol.getTaintSet();
@@ -35,7 +35,7 @@ public class TaintInitializerParseStr implements CallInterceptor {
 				operator.addNewTaintSet(symbol, taintSet);
 				log.debug("テイント：" + symbol);
 			}
-		} else if (decorator.getDecrated() instanceof mb_parse_str) {
+		} else if (decorator.getDecorated() instanceof mb_parse_str) {
 			// グローバルスコープを汚染
 			Symbol encodedstringSymbol = SymbolUtils.getArgument(ip, 0);
 			Set<Taint> taintSet = encodedstringSymbol.getTaintSet();

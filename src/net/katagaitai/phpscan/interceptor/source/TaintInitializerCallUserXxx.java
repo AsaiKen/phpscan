@@ -31,7 +31,7 @@ public class TaintInitializerCallUserXxx implements CallInterceptor {
 	@Override
 	public void intercept(CallDecorator decorator) {
 		SymbolOperator operator = ip.getOperator();
-		PhpCallable callable = decorator.getDecrated();
+		PhpCallable callable = decorator.getDecorated();
 		//		Symbol resultSymbol = decorator.getResult();
 		String functionName = SymbolUtils.getFunctionName(callable);
 		if (callable instanceof call_user_func) {
