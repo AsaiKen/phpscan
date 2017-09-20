@@ -1004,4 +1004,118 @@ public class InterceptorTest {
 		assertThat(ip.getVulnerabilityList().size(), is(1));
 		assertThat(ip.getVulnerabilityList().get(0).getCategory(), is(VulnerabilityCategory.XXE));
 	}
+
+	@Test
+	public void test69() throws Exception {
+		Interpreter ip = new Interpreter(
+				new File("test_resource/interceptor/assert.php"),
+				new Ini(new File("sample_php.ini")));
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new Debugger(ip));
+		ip.execute(interceptorList);
+		assertThat(ip.getVulnerabilityList().size(), is(1));
+		assertThat(ip.getVulnerabilityList().get(0).getCategory(), is(VulnerabilityCategory.RCE));
+	}
+
+	@Test
+	public void test70() throws Exception {
+		Interpreter ip = new Interpreter(
+				new File("test_resource/interceptor/assert2.php"),
+				new Ini(new File("sample_php.ini")));
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new Debugger(ip));
+		ip.execute(interceptorList);
+		assertThat(ip.getVulnerabilityList().size(), is(0));
+	}
+
+	@Test
+	public void test71() throws Exception {
+		Interpreter ip = new Interpreter(
+				new File("test_resource/interceptor/reflection3.php"),
+				new Ini(new File("sample_php.ini")));
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new Debugger(ip));
+		ip.execute(interceptorList);
+		assertThat(ip.getVulnerabilityList().size(), is(2));
+		assertThat(ip.getVulnerabilityList().get(0).getCategory(), is(VulnerabilityCategory.RCE));
+		assertThat(ip.getVulnerabilityList().get(1).getCategory(), is(VulnerabilityCategory.RCE));
+	}
+
+	@Test
+	public void test72() throws Exception {
+		Interpreter ip = new Interpreter(
+				new File("test_resource/interceptor/assert_options.php"),
+				new Ini(new File("sample_php.ini")));
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new Debugger(ip));
+		ip.execute(interceptorList);
+		assertThat(ip.getVulnerabilityList().size(), is(1));
+		assertThat(ip.getVulnerabilityList().get(0).getCategory(), is(VulnerabilityCategory.RCE));
+	}
+
+	@Test
+	public void test73() throws Exception {
+		Interpreter ip = new Interpreter(
+				new File("test_resource/interceptor/assert_options2.php"),
+				new Ini(new File("sample_php.ini")));
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new Debugger(ip));
+		ip.execute(interceptorList);
+		assertThat(ip.getVulnerabilityList().size(), is(0));
+	}
+
+	@Test
+	public void test74() throws Exception {
+		Interpreter ip = new Interpreter(
+				new File("test_resource/interceptor/assert_options3.php"),
+				new Ini(new File("sample_php.ini")));
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new Debugger(ip));
+		ip.execute(interceptorList);
+		assertThat(ip.getVulnerabilityList().size(), is(1));
+		assertThat(ip.getVulnerabilityList().get(0).getCategory(), is(VulnerabilityCategory.RCE));
+	}
+
+	@Test
+	public void test75() throws Exception {
+		Interpreter ip = new Interpreter(
+				new File("test_resource/interceptor/assert_options4.php"),
+				new Ini(new File("sample_php.ini")));
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new Debugger(ip));
+		ip.execute(interceptorList);
+		assertThat(ip.getVulnerabilityList().size(), is(0));
+	}
+
+	@Test
+	public void test76() throws Exception {
+		Interpreter ip = new Interpreter(
+				new File("test_resource/interceptor/assert_options5.php"),
+				new Ini(new File("sample_php.ini")));
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new Debugger(ip));
+		ip.execute(interceptorList);
+		assertThat(ip.getVulnerabilityList().size(), is(4));
+	}
+
+	@Test
+	public void test77() throws Exception {
+		Interpreter ip = new Interpreter(
+				new File("test_resource/interceptor/assert_options6.php"),
+				new Ini(new File("sample_php.ini")));
+		List<Interceptor> interceptorList = Lists.newArrayList();
+		interceptorList.addAll(TaintUtils.getTaintInterceptorList(ip));
+		interceptorList.add(new Debugger(ip));
+		ip.execute(interceptorList);
+		assertThat(ip.getVulnerabilityList().size(), is(0));
+	}
+
 }

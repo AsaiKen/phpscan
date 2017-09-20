@@ -10,6 +10,7 @@ import net.katagaitai.phpscan.php.builtin.Standard_8.current;
 import net.katagaitai.phpscan.php.types.PhpArray;
 import net.katagaitai.phpscan.symbol.Symbol;
 import net.katagaitai.phpscan.symbol.SymbolOperator;
+import net.katagaitai.phpscan.util.Constants;
 import net.katagaitai.phpscan.util.SymbolUtils;
 
 import com.google.common.collect.Lists;
@@ -20,6 +21,11 @@ public class Standard_9 extends BuiltinBase {
 		SymbolOperator operator = ip.getOperator();
 		putConstant("\\ARRAY_FILTER_USE_BOTH", operator.createSymbol(1));
 		putConstant("\\ARRAY_FILTER_USE_KEY", operator.createSymbol(2));
+		putConstant("\\ASSERT_ACTIVE", operator.createSymbol(1));
+		putConstant("\\ASSERT_CALLBACK", operator.createSymbol(2));
+		putConstant("\\ASSERT_BAIL", operator.createSymbol(3));
+		putConstant("\\ASSERT_WARNING", operator.createSymbol(4));
+		putConstant("\\ASSERT_QUIET_EVAL", operator.createSymbol(5));
 	}
 
 	// function array_merge_recursive(array $array1, array $_ = null) { }
@@ -565,6 +571,18 @@ public class Standard_9 extends BuiltinBase {
 		@Override
 		public Symbol call(Interpreter ip) {
 			SymbolOperator operator = ip.getOperator();
+			// TODO php.iniでもコールバックを設定できる。それに対応する。
+			// コールバックを呼ぶ
+			Symbol assertCallbackSymbol =
+					ip.getGlobalScope().getOrPhpNull(Constants.ASSERT_CALLBACK_VARIABLE);
+			Symbol descSymbol;
+			if (ip.getContext().getArgumentSymbolList().size() > 1) {
+				descSymbol = SymbolUtils.getArgument(ip, 1);
+			} else {
+				descSymbol = operator.createNull();
+			}
+			SymbolUtils.callCallable(ip, assertCallbackSymbol,
+					Lists.newArrayList(ip.getFilePathSymbol(), ip.getLineNoSymbol(), operator.string(), descSymbol));
 			return operator.bool();
 		}
 	}
@@ -592,7 +610,24 @@ public class Standard_9 extends BuiltinBase {
 		@Override
 		public Symbol call(Interpreter ip) {
 			SymbolOperator operator = ip.getOperator();
-			return operator.string();
+			// 設定を変更する場合
+			if (ip.getContext().getArgumentSymbolList().size() > 1) {
+				Symbol whatSymbol = ip.getContext().getArgumentSymbolList().get(0);
+				Symbol valueSymbol = ip.getContext().getArgumentSymbolList().get(1);
+				// ASSERT_ACTIVE
+				if (operator.containsNumberEq(whatSymbol, 1)) {
+					Symbol assertActiveSymbol =
+							ip.getGlobalScope().getOrPhpNull(Constants.ASSERT_ACTIVE_VARIABLE);
+					operator.assign(assertActiveSymbol, valueSymbol);
+				}
+				// ASSERT_CALLBACK
+				if (operator.containsNumberEq(whatSymbol, 2)) {
+					Symbol assertCallbackSymbol =
+							ip.getGlobalScope().getOrPhpNull(Constants.ASSERT_CALLBACK_VARIABLE);
+					operator.assign(assertCallbackSymbol, valueSymbol);
+				}
+			}
+			return operator.integer();
 		}
 	}
 

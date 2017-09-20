@@ -49,6 +49,8 @@ public class Constants {
 	public static final String DBA_HANDLER_ARRAY_VARIABLE = "$" + APP_NAME + "_dba_handler_array";
 	public static final String SESSION_CALLBACK_ARRAY_VARIABLE = "$" + APP_NAME + "_session_callback_array";
 	public static final String SESSION_HANDLER_VARIABLE = "$" + APP_NAME + "_session_handler";
+	public static final String ASSERT_ACTIVE_VARIABLE = "$" + APP_NAME + "_assert_active";
+	public static final String ASSERT_CALLBACK_VARIABLE = "$" + APP_NAME + "_assert_callback";
 
 	public static final String[] INTERNAL_VARIABLE_NAME = new String[] {
 			STRTOK_STRING_VARIABLE,
@@ -57,7 +59,9 @@ public class Constants {
 			ICONV_ENCODING_ARRAY_VARIABLE,
 			DBA_HANDLER_ARRAY_VARIABLE,
 			SESSION_CALLBACK_ARRAY_VARIABLE,
-			SESSION_HANDLER_VARIABLE
+			SESSION_HANDLER_VARIABLE,
+			ASSERT_ACTIVE_VARIABLE,
+			ASSERT_CALLBACK_VARIABLE
 	};
 
 	public static final Set<String> SPL_DEFAULT_EXTENSION_SET =

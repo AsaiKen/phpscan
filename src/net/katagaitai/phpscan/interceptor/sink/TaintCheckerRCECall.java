@@ -19,10 +19,12 @@ import net.katagaitai.phpscan.php.builtin.Standard_2.shell_exec;
 import net.katagaitai.phpscan.php.builtin.Standard_2.system;
 import net.katagaitai.phpscan.php.builtin.Standard_5.popen;
 import net.katagaitai.phpscan.php.builtin.Standard_7.mail;
+import net.katagaitai.phpscan.php.builtin.Standard_9.assert_;
 import net.katagaitai.phpscan.php.builtin._Types.eval;
 import net.katagaitai.phpscan.symbol.Symbol;
 import net.katagaitai.phpscan.symbol.SymbolOperator;
 import net.katagaitai.phpscan.taint.Taint;
+import net.katagaitai.phpscan.util.Constants;
 import net.katagaitai.phpscan.util.ScanUtils;
 import net.katagaitai.phpscan.util.SymbolUtils;
 import net.katagaitai.phpscan.util.TaintUtils;
@@ -39,7 +41,7 @@ public class TaintCheckerRCECall implements CallInterceptor {
 		String comment = SymbolUtils.getFunctionName(callable);
 		boolean evalPhp = false;
 		boolean execShell = false;
-		if (callable instanceof eval) {
+		if (callable instanceof eval || (callable instanceof assert_ && isAssertActive())) {
 			evalPhp = true;
 			argIndex = 0;
 		} else if (callable instanceof shell_exec
@@ -85,6 +87,14 @@ public class TaintCheckerRCECall implements CallInterceptor {
 					ip, VulnerabilityCategory.RCE, taintSet, comment);
 			ScanUtils.addVulnerability(ip, vulnerabilityList);
 		}
+	}
+
+	private boolean isAssertActive() {
+		// TODO php.iniでもフラグを設定できる。それに対応する。
+		SymbolOperator operator = ip.getOperator();
+		Symbol assertActiveSymbol =
+				ip.getGlobalScope().getOrPhpNull(Constants.ASSERT_ACTIVE_VARIABLE);
+		return operator.containsNumberNe(assertActiveSymbol, 0);
 	}
 
 }

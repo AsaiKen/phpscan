@@ -362,6 +362,8 @@ public class Interpreter {
 		globalScope.put(Constants.SESSION_CALLBACK_ARRAY_VARIABLE,
 				operator.createSymbol(operator.createPhpArray()));
 		globalScope.put(Constants.SESSION_HANDLER_VARIABLE, operator.createSymbol());
+		globalScope.put(Constants.ASSERT_ACTIVE_VARIABLE, operator.createSymbol(1));
+		globalScope.put(Constants.ASSERT_CALLBACK_VARIABLE, operator.createNull());
 
 		// $_FILES['hoge']
 		loadFileVariable();
@@ -771,16 +773,9 @@ public class Interpreter {
 		String name = getConstant.getName();
 		Symbol symbol;
 		if (name.equals("__FILE__")) {
-			String string = getFile().getAbsolutePath();
-			symbol = operator.createSymbol(new PhpString(string));
+			symbol = getFilePathSymbol();
 		} else if (name.equals("__LINE__")) {
-			long lineno;
-			if (sourcePosition == null) {
-				lineno = 0;
-			} else {
-				lineno = sourcePosition.getLineno();
-			}
-			symbol = operator.createSymbol(new PhpInteger(lineno));
+			symbol = getLineNoSymbol();
 		} else if (name.equals("__CLASS__")) {
 			String string;
 			if (context.getPhpClass() == null) {
@@ -1426,5 +1421,22 @@ public class Interpreter {
 
 	public List<PhpNewable> getClassList() {
 		return Lists.newArrayList(classMap.values());
+	}
+
+	public Symbol getFilePathSymbol() {
+		String string = getFile().getAbsolutePath();
+		Symbol symbol = operator.createSymbol(new PhpString(string));
+		return symbol;
+	}
+
+	public Symbol getLineNoSymbol() {
+		long lineno;
+		if (sourcePosition == null) {
+			lineno = 0;
+		} else {
+			lineno = sourcePosition.getLineno();
+		}
+		Symbol symbol = operator.createSymbol(new PhpInteger(lineno));
+		return symbol;
 	}
 }

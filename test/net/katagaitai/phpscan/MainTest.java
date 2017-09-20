@@ -25,7 +25,7 @@ import com.google.common.collect.Lists;
 
 @Log4j2
 public class MainTest {
-	private static final String mainDirPath = "C:/xampp/htdocs/main";
+	private static final String mainDirPath = "C:/xampp_old2/htdocs/main";
 
 	//	@Test
 	//	public void test() throws Exception {
@@ -1137,11 +1137,11 @@ public class MainTest {
 		Interpreter ip =
 				new Interpreter(
 						new File(
-								"C:/xampp/htdocs/main/wordpress-4.7.0/wp-content/plugins/wp-statistics/wp-statistics.php"),
+								mainDirPath + "/wordpress-4.7.0/wp-content/plugins/wp-statistics/wp-statistics.php"),
 						new Ini(new File("C:/Users/askn/github/phpscan/sample_php.ini")));
 		ProjectCompiler projectCompiler =
 				new ProjectCompiler(
-						new File("C:/xampp/htdocs/main/wordpress-4.7.0/"));
+						new File(mainDirPath + "/wordpress-4.7.0/"));
 		PhpProject phpProject = projectCompiler.compile();
 		ip.setPhpProject(phpProject);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -1164,11 +1164,11 @@ public class MainTest {
 	public void test43() throws Exception {
 		Interpreter ip =
 				new Interpreter(
-						new File("C:/xampp/htdocs/main/CVE-2016-10033/poc.php"),
+						new File(mainDirPath + "/CVE-2016-10033/poc.php"),
 						new Ini(new File("C:/Users/askn/github/phpscan/sample_php.ini")));
 		ProjectCompiler projectCompiler =
 				new ProjectCompiler(
-						new File("C:/xampp/htdocs/main/CVE-2016-10033/"));
+						new File(mainDirPath + "/CVE-2016-10033/"));
 		PhpProject phpProject = projectCompiler.compile();
 		ip.setPhpProject(phpProject);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

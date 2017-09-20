@@ -2486,4 +2486,26 @@ public class SymbolOperator {
 		return result;
 	}
 
+	public List<Double> getJavaDoubleList(Symbol targetSymbol) {
+		List<Double> result = Lists.newArrayList();
+		for (PhpAnyType type : getTypeSet(targetSymbol)) {
+			PhpFloat phpFloat = (PhpFloat) cast(type, CastType.REAL);
+			result.add(phpFloat.getFloat_());
+		}
+		return result;
+	}
+
+	public boolean containsNumberEq(Symbol symbol, double i) {
+		return getJavaDoubleList(symbol).contains(i);
+	}
+
+	public boolean containsNumberNe(Symbol symbol, double i) {
+		for (double double_ : getJavaDoubleList(symbol)) {
+			if (double_ != i) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
