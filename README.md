@@ -105,14 +105,14 @@ You must specify this entry.
 
 This entry is optional.
 
-Specify the path of the text file containing paths of PHP script files that you want to exclude for a scan.
+Specify the path of the text file that lists paths of PHP script files that you want to exclude for a scan.
 
 
 #### IGNORE_REGEXPS
 
 This entry is optional.
 
-Specify paths of PHP script files that you want to exclude for a scan in "regular expression" manners.   
+Specify paths of PHP script files in "regular expression" manners that you want to exclude for a scan.   
 You can specify multiple values in "comma separated" manners.
 
 #### SQL_ESCAPE_FUNCTIONS
@@ -162,7 +162,7 @@ If this entry is empty, "php" and "inc" are used to this entry.
 This entry is optional.
 
 Specify names of CMS and framework used in the application.
-By specifying this entry, scan coverage can be increased.
+By specifying this entry, a scan coverage can be increased.
 
 Available values are followings.
 
@@ -173,7 +173,7 @@ You can specify multiple values in "comma separated" manners.
 Detected vulnerabilities in real
 ---
 
-All items written in the following URL related to PHP were detected by PHPSCAN.
+All items listed in the following URL related to PHP were detected by PHPSCAN.
 
 [Japan Vulnerability Notes](http://jvndb.jvn.jp/search/index.php?mode=_vulnerability_search_IA_VulnSearch&lang=en&useSynonym=1&keyword=ASAI%20Ken)
 
@@ -181,7 +181,7 @@ Others
 ---
 
 - At this time, PHPSCAN generates Japanese text logs in most cases. Sorry.
-- Not support new features introduced in PHP 7.
+- Not supports new features introduced in PHP 7.
 
 License
 ---
