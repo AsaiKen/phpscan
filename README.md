@@ -1,17 +1,14 @@
 # PHPSCAN
 
-### 概要
+PHPSCAN is a security analysis tool for PHP scripts, which detects vulnerabilities by simulating PHP interpreter.
 
-PHPの静的解析ツールです。  
-PHPのコードを擬似的に実行して脆弱性を検出します。  
+PHPSCAN has following features.
 
-以下の特徴があります。  
+* supports the object-oriented-programming feature of PHP.
+* supports the reflection feature of PHP.
+* avoid false-positive by checking whether escape process exists or not.
 
-* オブジェクト指向のPHPに対応
-* リフレクションに対応
-* エスケープ処理の有無を考慮して脆弱性を判別
-
-以下の脆弱性を検査することができます。  
+PHPSCAN can detect following vulnerabilities.
 
 * Remote Code Execution
 * Local File Inclusion
@@ -23,102 +20,122 @@ PHPのコードを擬似的に実行して脆弱性を検出します。
 * PHP File Manipulation
 * XML External Entity
 
-検査結果はHTML形式のレポートとして出力されます。  
-検査レポートには、ユーザ入力値が初めて代入された地点から危険な関数で使用される地点までの呼び出しの経路が記載されます。  
+PHPSCAN outputs the HTML-format report of the scan result in the "./result" directory.
+In this report, you can know the path from the point where a user-input is set to a variable to the point where a dangerous functon uses a variable. 
 
-### 動作環境
+Environment
+---
 
-以下の環境で動作確認しました。  
+* Windows 7 64bit
+* jdk 1.8
 
-* OS: Windows 7 64bit
-* ミドルウェア: jdk1.8.0_101
+Build
+---
 
-### ビルド方法
+No need to build. 
+You can use "phpscan.jar" in the root of this repository.
 
-antでbuild.xmlを実行します。  
-phpscan.jarが作成されます。  
+If you want to build, run 
 
-### 実行準備
+```
+ant
+```
 
-任意の場所にフォルダを新規作成します。  
-作成したフォルダに以下のファイルとフォルダをコピーします。  
+This generates "phpscan.jar".
+
+Prepare
+---
+
+create a folder, and copy followings into it.
 
 * phpscan.jar
 * setting.properties
 * start_scan.bat
 * resource/
 
-### 実行方法（簡単）
+Execute
+---
 
-1. 実行準備で作成したフォルダ内にphpフォルダを新規作成します。  
-2. phpフォルダ内に、検査したいPHPファイル群およびphp.iniファイルを配置します。  
-3. start_scan.batを実行すると、phpフォルダ内のPHPファイル群に対して検査を実行します。  
-4. 脆弱性があれば、resultフォルダ内に検査レポートが作成されます。  
+For example, if you want to scan a plugin of a CMS, 
 
-### 実行方法（上級者向け）
+1. Open the "setting.properties" in your favorite text-editor.
+2. Write the path of the plugin directory to "ENTRY_POINT_PATH" entry.
+3. Write the path of the CMS directory to "PROJECT_PATH" entry. 
+4. Write the path of the "php.ini" file to "PHP_INI_PATH".
+5. Save the change, and close the text-editor.
+5. Run the "start_scan.bat" to start a scan.
+6. If vulnerabilities exist, PHPSCAN generates a scan report in the "./result" directory.
 
-CMSのプラグインを検査する場合を一例として説明します。  
+Settings
+---
 
-1. 実行準備で作成したフォルダ内のsetting.propertiesをテキストエディタで開きます。
-2. ENTRY_POINT_PATHにプラグインのフォルダのパスを記入します。
-3. PROJECT_PATHにCMS本体のフォルダのパスを記入します。
-4. PHP_INI_PATHにphp.iniファイルのパスを記入します。
-5. start_scan.batを実行すると、プラグインのフォルダ内のPHPファイル群に対して検査を実行します。
-6. 脆弱性があれば、resultフォルダ内に検査レポートが作成されます。
-
-### 動作設定
-
-動作設定はsetting.propertiesで行います。  
+You can change the scan setting by changing the "setting.properties" file.  
 
 #### ENTRY_POINT_PATH
 
-検査対象のPHPファイル群が配置されたフォルダのパスを指定します。  
-ENTRY_POINT_PATHとENTRY_POINT_PARENT_PATHは、いずれかを必ず入力する必要があります。  
+Specify the path of the directory that contains PHP script files that you want to scan.
+
+You must specify either ENTRY_POINT_PATH or ENTRY_POINT_PARENT_PATH.
 
 #### ENTRY_POINT_PARENT_PATH
 
-ENTRY_POINT_PATHが複数存在する場合に使用します。  
-ENTRY_POINT_PATH群を1つのフォルダ内に配置し、この項目にそのフォルダのパスを指定することで、ENTRY_POINT_PATH群を検査することができます。  
-例えば、同時に複数のプラグインを検査したい場合に、プラグインのフォルダ群を配置したフォルダのパスを指定します。  
-ENTRY_POINT_PATHとENTRY_POINT_PARENT_PATHは、いずれかを必ず入力する必要があります。  
+Use this entry when more than one ENTRY_POINT_PATH exist.
+You can scan multiple ENTRY_POINT_PATH all at once by deploying ENTRY_POINT_PATH directories into the one directory and specifying it to this entry.
+For example, if you want to scan multiple plugins of CMS all at once, specify the plugin root directory to this entry. 
+
+You must specify either ENTRY_POINT_PATH or ENTRY_POINT_PARENT_PATH.
 
 #### PROJECT_PATH
 
-検査対象のPHPファイルを実行するために必要なPHPファイル群が配置されているフォルダのパスを指定します。  
-このフォルダ内にあるPHPファイル群は検査対象になりません。  
-例えば、CMSのプラグインを検査する場合は、この項目にCMS本体のフォルダのパスを指定します。  
-未指定の場合、ENTRY_POINT_PATHとENTRY_POINT_PARENT_PATHのいずれかの値が使用されます。  
+This entry is optional.
+
+Specify the path of the directory that contains PHP script files required for executing scan targets.
+PHP script files in this directory are excluded from a scan.
+For example, if you want to scan a plugin of CMS, specify the CMS root directory to this entry.
+
+If this entry is empty, either ENTRY_POINT_PATH or ENTRY_POINT_PARENT_PATH is used to this entry.
 
 #### PHP_INI_PATH
 
-php.iniファイルのパスを指定します。  
-入力必須の項目です。  
+Specify the path of the "php.ini" file.
+
+You must specify this entry.
 
 #### IGNORE_TXT_PATH
 
-検査から除外するPHPファイルのパスを記載したテキストファイルのパスを指定します。  
+This entry is optional.
+
+Specify the path of the text file containing paths of PHP script files that you want to exclude for a scan.
+
 
 #### IGNORE_REGEXPS
 
-検査から除外するパスを正規表現で指定します。  
-コンマ区切りで複数指定することができます。  
+This entry is optional.
+
+Specify paths of PHP script files that you want to exclude for a scan in "regular expression" manners.   
+You can specify multiple values in "comma separated" manners.
 
 #### SQL_ESCAPE_FUNCTIONS
 
-アプリケーションが独自にSQL文の文字列をエスケープする関数を実装している場合に、その関数名を指定します。  
-コンマ区切りで複数指定することができます。  
+This entry is optional.
+
+Specify names of SQL escape functions if the application implements handcrafted functions to escape SQL statements. 
+You can specify multiple values in "comma separated" manners.
 
 #### HTML_ESCAPE_FUNCTIONS
 
-アプリケーションが独自にHTMLの文字列をエスケープする関数を実装している場合に、その関数名を指定します。  
-コンマ区切りで複数指定することができます。  
+This entry is optional.
+
+Specify names of HTML escape functions if the application implements handcrafted functions to escape HTML.
+You can specify multiple values in "comma separated" manners.
 
 #### DISABLED_VULNERABILITY_CATEGORIES
 
-検査から除外する脆弱性のカテゴリを指定します。  
-指定したカテゴリは検査レポートに表示されません。  
+This entry is optional.
 
-指定できる値は以下の通りです。  
+Specify vulnerability categories that you want to exclude for a scan.
+
+Available values are followings.
 
 * Remote Code Execution
 * Local File Inclusion
@@ -129,36 +146,44 @@ php.iniファイルのパスを指定します。
 * Object Injection
 * PHP File Manipulation
 
-コンマ区切りで複数指定することができます。  
+You can specify multiple values in "comma separated" manners.  
 
 #### PHP_FILE_EXTENSIONS
 
-PHPファイルとして認識する拡張子を記載します。  
-コンマ区切りで複数指定することができます。  
-未指定の場合、phpとincの2つの拡張子がPHPファイルとして認識されます。  
+This entry is optional.
+
+Specify extensions that are interpreted as PHP script files.
+You can specify multiple values in "comma separated" manners.  
+
+If this entry is empty, "php" and "inc" are used to this entry.
 
 #### USED_FRAMEWORKS
 
-アプリケーションの使用しているフレームワーク、CMSを指定します。  
-指定することで検査の網羅性を上げることができます。  
+This entry is optional.
 
-指定できる値は以下の通りです。  
+Specify names of CMS and framework used in the application.
+By specifying this entry, scan coverage can be increased.
+
+Available values are followings.
 
 * WordPress
 
-コンマ区切りで複数指定することができます。  
+You can specify multiple values in "comma separated" manners.  
 
-### 発見した脆弱性
+Detected vulnerabilities in real
+---
 
-以下のサイトに掲載されている脆弱性のうち、PHP関連のものはすべてPHPSCANで発見しています。  
+All items written in the following URL related to PHP were detected by PHPSCAN.
 
-[http://jvndb.jvn.jp/search/index.php?mode=_vulnerability_search_IA_VulnSearch&lang=ja&useSynonym=1&keyword=%90%F3%88%E4%81%40%8C%92](http://jvndb.jvn.jp/search/index.php?mode=_vulnerability_search_IA_VulnSearch&lang=ja&useSynonym=1&keyword=%90%F3%88%E4%81%40%8C%92)
+[Japan Vulnerability Notes](http://jvndb.jvn.jp/search/index.php?mode=_vulnerability_search_IA_VulnSearch&lang=en&useSynonym=1&keyword=ASAI%20Ken)
 
-### その他
+Others
+---
 
-PHP7の機能には未対応です。  
+- At this time, PHPSCAN generates Japanese text logs in most cases. Sorry.
+- Not support new features introduced in PHP 7.
 
-### ライセンス
+License
+---
 
 This software is released under the MIT License, see LICENSE.txt.  
-
