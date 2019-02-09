@@ -180,7 +180,6 @@ All items listed in the following URL related to PHP were detected by PHPSCAN.
 Others
 ---
 
-- At this time, PHPSCAN generates Japanese text logs in most cases. Sorry.
 - Not supports new features introduced in PHP 7.
 
 License
