@@ -7,3 +7,5 @@
 /classes/
 .idea/
 *.iml
+/logs/
+.attach_pid*
