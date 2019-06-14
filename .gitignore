@@ -1,7 +1,8 @@
 /.gradle
 /.idea
 /classes
-/logs/
-/tmp/
-/result/
+/logs
+/out
+/result
 .attach_pid*
+/tmp
