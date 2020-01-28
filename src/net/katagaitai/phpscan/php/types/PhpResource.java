@@ -11,7 +11,7 @@ import net.katagaitai.phpscan.symbol.SymbolId;
 import com.google.common.collect.Maps;
 
 @ToString
-@EqualsAndHashCode(exclude = { "resource", "referenceCounter" })
+@EqualsAndHashCode(exclude = { "resource", "referenceCounter" }, callSuper = false)
 public class PhpResource extends PhpAnyType {
 	@Getter
 	@Setter

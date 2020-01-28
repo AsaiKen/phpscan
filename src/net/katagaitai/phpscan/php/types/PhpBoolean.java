@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class PhpBoolean extends PhpAnyType {
 	private static PhpBoolean TRUE;
 	private static PhpBoolean FALSE;

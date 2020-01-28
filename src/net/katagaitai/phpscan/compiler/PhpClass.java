@@ -15,8 +15,7 @@ import net.katagaitai.phpscan.util.PhpUtils;
 
 import com.google.common.collect.Maps;
 
-@ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class PhpClass extends PhpClassBase {
 	// パッケージはグローバルなマップで管理
 	@Getter

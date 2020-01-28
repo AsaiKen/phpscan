@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.*;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
+import java.nio.file.Paths;
 
 import net.katagaitai.phpscan.TestUtils;
 import net.katagaitai.phpscan.compiler.PhpProject;
@@ -364,7 +365,7 @@ public class InterpreterTest {
 		PrintStream out = new PrintStream(baos);
 		System.setOut(out);
 		ip.execute(Lists.newArrayList(new Debugger(ip)));
-		assertThat(new String(baos.toByteArray()), is("C:/Users/askn/github"));
+		assertThat(new String(baos.toByteArray()), is(Paths.get("..").toFile().getCanonicalPath()));
 	}
 
 	@Test

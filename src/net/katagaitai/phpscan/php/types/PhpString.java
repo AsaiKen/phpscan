@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 public class PhpString extends PhpAnyType {
 	@Getter

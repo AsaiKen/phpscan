@@ -10,7 +10,7 @@ import net.katagaitai.phpscan.symbol.SymbolId;
 
 import com.google.common.collect.Maps;
 
-@EqualsAndHashCode(exclude = { "phpClass", "fieldMap", "referenceCounter", "realId" })
+@EqualsAndHashCode(exclude = { "phpClass", "fieldMap", "referenceCounter", "realId" }, callSuper = false)
 public class PhpObject extends PhpAnyType {
 	@Override
 	public String toString() {

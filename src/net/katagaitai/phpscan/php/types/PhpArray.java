@@ -16,7 +16,7 @@ import net.katagaitai.phpscan.symbol.SymbolOperator;
 import com.google.common.collect.Maps;
 
 @ToString
-@EqualsAndHashCode(exclude = { "array", "referenceCounter" })
+@EqualsAndHashCode(exclude = { "array", "referenceCounter" }, callSuper = false)
 public class PhpArray extends PhpAnyType {
 	@Getter
 	@Setter

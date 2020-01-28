@@ -8,7 +8,7 @@ public class ProjectCompilerTest {
 	@Test
 	public void test() throws Exception {
 		ProjectCompiler compiler = new ProjectCompiler(
-				new File("C:/Users/askn/github/phpscan/test_resource/projectcompiler/case1"));
+				new File("test_resource/projectcompiler/case1"));
 		PhpProject phpProject = compiler.compile();
 		//		assertThat(phpProject.getFunctionMap().size(), is(2));
 		//		assertThat(phpProject.getClassMap().size(), is(2));
@@ -19,7 +19,7 @@ public class ProjectCompilerTest {
 	@Test
 	public void test2() throws Exception {
 		ProjectCompiler compiler = new ProjectCompiler(
-				new File("C:/Users/askn/github/phpscan/test_resource/projectcompiler/case2"));
+				new File("test_resource/projectcompiler/case2"));
 		PhpProject phpProject = compiler.compile();
 		//		assertThat(phpProject.getConstantMap().size(), is(3));
 		//		assertThat(phpProject.getConstantMap().keySet(), is(
