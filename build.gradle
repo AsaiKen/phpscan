@@ -29,10 +29,10 @@ dependencies {
 }
 
 apply plugin: 'application'
-mainClassName = 'net.katagaitai.phpscan.Start'
+mainClassName = 'net.katagaitai.phpscan.Main'
 
 jar {
     manifest {
-        attributes 'Main-Class': 'net.katagaitai.phpscan.Start '
+        attributes 'Main-Class': 'net.katagaitai.phpscan.Main '
     }
 }

@@ -62,3 +62,4 @@ contract
 /tmp/
 /log.txt*
 /result/
+/phpscan-*-SNAPSHOT
