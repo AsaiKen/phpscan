@@ -30,12 +30,12 @@ PHPのコードを擬似的に実行して脆弱性を検出します。
 
 以下の環境で動作確認しました。  
 
-* OS: Windows 7 64bit
-* ミドルウェア: jdk1.8.0_101
+* OS: Ubuntu 18.04
+* ミドルウェア: jdk1.8.0_242
 
 ### ビルド方法
 
-コマンドプロンプトで`gradlew.bat build`を実行すると、phpscan-1.0-SNAPSHOTフォルダが作成されます。  
+コマンドプロンプトで`gradlew build`を実行すると、phpscan-1.0-SNAPSHOTフォルダが作成されます。  
 
 ### 実行方法
 
@@ -45,7 +45,7 @@ CMSのプラグインを検査する場合を一例として説明します。
 2. ENTRY_POINT_PATHにプラグインのフォルダのパスを記入します。
 3. PROJECT_PATHにCMS本体のフォルダのパスを記入します。
 4. PHP_INI_PATHにphp.iniファイルのパスを記入します。
-5. コマンドプロンプトで`phpscan-1.0-SNAPSHOT/bin/phpscan.bat`を実行すると、プラグインのフォルダ内のPHPファイル群に対して検査を実行します。
+5. コマンドプロンプトで`phpscan-1.0-SNAPSHOT/bin/phpscan`を実行すると、プラグインのフォルダ内のPHPファイル群に対して検査を実行します。
 6. 脆弱性があれば、resultフォルダ内に検査レポートが作成されます。
 
 ### 動作設定
