@@ -35,34 +35,24 @@ PHPのコードを擬似的に実行して脆弱性を検出します。
 
 ### ビルド方法
 
-`gradlew.bat build`でphpscan-1.0-SNAPSHOT/libフォルダにphpscan-1.0-SNAPSHOT.jarが作成されます。  
+`gradlew.bat build`でphpscan-1.0-SNAPSHOTフォルダが作成されます。  
 
 ### 実行準備
+ 
+phpscan-1.0-SNAPSHOT/binフォルダに以下のファイルとフォルダをコピーします。  
 
-任意の場所にフォルダを新規作成します。  
-作成したフォルダに以下のファイルとフォルダをコピーします。  
-
-* phpscan.jar (phpscan-1.0-SNAPSHOT.jarをリネームする)
 * setting.properties
-* start_scan.bat
 * resource/
-
-### 実行方法（簡単）
-
-1. 実行準備で作成したフォルダ内にphpフォルダを新規作成します。  
-2. phpフォルダ内に、検査したいPHPファイル群およびphp.iniファイルを配置します。  
-3. start_scan.batを実行すると、phpフォルダ内のPHPファイル群に対して検査を実行します。  
-4. 脆弱性があれば、resultフォルダ内に検査レポートが作成されます。  
 
 ### 実行方法（上級者向け）
 
 CMSのプラグインを検査する場合を一例として説明します。  
 
-1. 実行準備で作成したフォルダ内のsetting.propertiesをテキストエディタで開きます。
+1. phpscan-1.0-SNAPSHOT/binフォルダ内のsetting.propertiesをテキストエディタで開きます。
 2. ENTRY_POINT_PATHにプラグインのフォルダのパスを記入します。
 3. PROJECT_PATHにCMS本体のフォルダのパスを記入します。
 4. PHP_INI_PATHにphp.iniファイルのパスを記入します。
-5. start_scan.batを実行すると、プラグインのフォルダ内のPHPファイル群に対して検査を実行します。
+5. phpscan.batを実行すると、プラグインのフォルダ内のPHPファイル群に対して検査を実行します。
 6. 脆弱性があれば、resultフォルダ内に検査レポートが作成されます。
 
 ### 動作設定

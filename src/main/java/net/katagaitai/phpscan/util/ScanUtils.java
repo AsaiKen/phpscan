@@ -85,9 +85,9 @@ public class ScanUtils {
 				String detailString = String.join("\n", detailStringList);
 				try {
 					String headString =
-							Files.toString(new File("resource/report_template.head"), Constants.DEFAULT_CHARSET);
+							Files.toString(new File("/resource/report_template.head"), Constants.DEFAULT_CHARSET);
 					String tailString =
-							Files.toString(new File("resource/report_template.tail"), Constants.DEFAULT_CHARSET);
+							Files.toString(new File("/resource/report_template.tail"), Constants.DEFAULT_CHARSET);
 					File file = FileUtils.createReportFile(ip, pageNum);
 					java.nio.file.Files.deleteIfExists(file.toPath());
 					Files.append(headString, file, Constants.DEFAULT_CHARSET);
