@@ -44,7 +44,7 @@ phpscan-1.0-SNAPSHOT/binフォルダに以下のファイルとフォルダを�
 * setting.properties
 * resource/
 
-### 実行方法（上級者向け）
+### 実行方法
 
 CMSのプラグインを検査する場合を一例として説明します。  
 
