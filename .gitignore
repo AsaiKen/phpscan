@@ -1,9 +1,64 @@
-/bin/
+# local credentials
+credentials.properties
+
+# Vim
+*.sw[op]
+
+# Gradle
+.gradle
+build
+
+# IDEA
+.idea
+!.idea/codeStyleSettings.xml
+*.iml
+*.iws
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin
+
+# Maven
+*.log
+log/
+target/
+
+# Output
+database*
+out
+logs
+test_db*
+testnetSampleDb
+sampleDB*
+*.tmp
+result/
+config/
+*.db
+privkey*
+tagomori-1.0-SNAPSHOT
+blocknumber
+contract
+
+# Mac
+.DS_Store
+
+# Local configuration
+**/user.conf
+**/test-user.conf
+**/out.log
+**/user.log4j.properties
+
+# jenv
+.java-version
+
+# NetBeans
+/.nb-gradle/
+
+# IDEA
+.idea/
+
 /tmp/
-/vulnerability.txt
 /log.txt*
 /result/
-*.bak
-/classes/
-.idea/
-*.iml
