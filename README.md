@@ -35,7 +35,7 @@ PHPのコードを擬似的に実行して脆弱性を検出します。
 
 ### ビルド方法
 
-コマンドプロンプトで`gradlew build`を実行すると、phpscan-1.0-SNAPSHOTディレクトリが作成されます。  
+`gradlew build`を実行すると、phpscan-1.0-SNAPSHOTディレクトリが作成されます。  
 
 ### 実行方法
 
